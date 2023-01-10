@@ -21,4 +21,4 @@ appProjects:
     valuesFile: values.yaml
     applications:
       - name: aap
-        gitpath: operator
+        gitPath: operator
