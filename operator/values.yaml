@@ -4,7 +4,7 @@ acm_policy_name: aap-operator
 #
 # policy_namespce defaults to 'default' namespace
 #
-policy_namespace: openshift-gitops
+policy_namespace: aap
 
 #
 # remediation_action defaults to 'inform' but, can be set to 'enforce'
