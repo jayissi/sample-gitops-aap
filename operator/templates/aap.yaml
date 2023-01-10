@@ -1,0 +1,124 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: {{ $.Values.acm_policy_name }}
+  namespace: {{ $.Values.policy_namespace | default "default" }}
+spec:
+  disabled: false
+  remediationAction: {{ $.Values.remediation_action | default "inform" }}
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: aap-namespace
+        spec:
+          remediationAction: {{ $.Values.remediation_action | default "inform" }}
+          severity: {{ $.Values.severity | default "low" }}
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: v1
+                kind: Namespace
+                metadata:
+                  labels:
+                    argocd.argoproj.io/managed-by: openshift-gitops
+                  name: aap
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: aap-operator-group
+        spec:
+          remediationAction: {{ $.Values.remediation_action | default "inform" }}
+          severity: {{ $.Values.severity | default "low" }}
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1
+                kind: OperatorGroup
+                metadata:
+                  name: aap
+                  namespace: aap
+                spec: {}
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: aap-subscription
+        spec:
+          remediationAction: {{ $.Values.remediation_action | default "inform" }}
+          severity: {{ $.Values.severity | default "low" }}
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: aap
+                  namespace: aap
+                spec:
+                  name: ansible-automation-platform-operator
+                  channel: {{ $.Values.channel }}
+                  installPlanApproval: Automatic
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: aap-operator-status
+        spec:
+          remediationAction: {{ $.Values.remediation_action | default "inform" }}
+          severity: {{ $.Values.severity | default "low" }}
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: ClusterServiceVersion
+                metadata:
+                  namespace: aap
+                spec:
+                  displayName: Ansible Automation Platform
+                status:
+                  phase: Succeeded
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: aap-controller
+        spec:
+          remediationAction: {{ $.Values.remediation_action | default "inform" }}
+          severity: {{ $.Values.severity | default "low" }}
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: automationcontroller.ansible.com/v1beta1
+                kind: AutomationController
+                metadata:
+                  name: {{ $.Values.name }}
+                  namespace: aap
+                spec:
+                  hostname: {{ $.Values.name }}
+                  create_preload_data: true
+                  route_tls_termination_mechanism: Edge
+                  garbage_collect_secrets: true
+                  ingress_type: Route
+                  loadbalancer_port: 80
+                  no_log: true
+                  image_pull_policy: IfNotPresent
+                  projects_storage_size: 10Gi
+                  auto_upgrade: true
+                  task_privileged: false
+                  projects_storage_access_mode: ReadWriteMany
+                  set_self_labels: true
+                  projects_persistence: true
+                  replicas: 1
+                  admin_user: admin
+                  loadbalancer_protocol: http
+                  nodeport_port: 30080
+                  postgres_storage_class: ocs-storagecluster-ceph-rbd
+                  projects_use_existing_claim: _No_
+                  projects_storage_class: ocs-storagecluster-cephfs
+                  admin_email: {{ $.Values.admin_email }}

@@ -1,0 +1,64 @@
+{{ range $appProject := .Values.appProjects }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: "{{ $appProject.description }}"
+    openshift.io/display-name: "{{ $appProject.displayName }}"
+  labels:
+    argocd.argoproj.io/managed-by: openshift-gitops
+  name: {{ $appProject.name }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ $appProject.name }}
+  namespace: openshift-gitops
+spec:
+  destinations:
+    - name: in-cluster
+      namespace: {{ $appProject.name }}
+  sourceRepos:
+    - {{ squote $appProject.gitUrl }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $appProject.name }}
+  namespace: openshift-gitops
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: {{ squote $appProject.gitUrl }}
+  project: {{ $appProject.name }}
+{{ range $application := $appProject.applications }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $application.name }}
+  namespace: openshift-gitops
+spec:
+  project: {{ $appProject.name }}
+  destination:
+    name: in-cluster
+    namespace: {{ $appProject.name }}
+  source:
+    directory:
+      recurse: false
+    helm:
+      valueFiles:
+        - {{ $appProject.valuesFile | default "values.yaml" }}
+    path: {{ $application.gitPath  | default $application.name }}
+    repoURL: {{ squote $appProject.gitUrl }}
+    targetRevision: {{ $appProject.gitBranch | default "main" }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
+{{ end }}
+{{ end }}
