@@ -1,7 +1,7 @@
 # Deploy Applications with OpenShift GitOps (Argo CD)
 
-*operator* directory contains a Helm chart for the application that will be
-deployed. *gitops* directory contains the Argo CD manifests to deploy the Helm chart.
+**_operator_** directory contains a Helm chart for the application that will be
+deployed. **_gitops_** directory contains the Argo CD manifests to deploy the Helm chart.
 
 
 ## Deploy
