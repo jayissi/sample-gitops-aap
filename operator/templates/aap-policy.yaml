@@ -155,7 +155,7 @@ spec:
                   gunicorn_timeout: 90
                   nginx_client_max_body_size: 10m
                   web:
-                    replicas: 3
+                    replicas: 1
                   nginx_proxy_connect_timeout: 120s
                   haproxy_timeout: 180s
                   content:
