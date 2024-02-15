@@ -14,11 +14,11 @@
 
 appProjects:
   - name: aap
-    description: "Automation Automation Platform operator namespace"
+    description: "Automation Automation Platform Operator Namespace"
     displayName: "Automation Automation Platform"
     gitUrl: 'https://github.com/jayissi/sample-gitops-aap.git'
     gitBranch: main
     valuesFile: values.yaml
     applications:
       - name: aap
-        gitPath: operator
+        gitPath: aap-operator-policy

@@ -1,0 +1,30 @@
+{{ range $appProject := .Values.appProjects }}
+{{ range $application := $appProject.applications }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $application.name }}
+  namespace: openshift-gitops
+spec:
+  project: {{ $appProject.name }}
+  destination:
+    name: in-cluster
+    namespace: {{ $appProject.name }}
+  source:
+    directory:
+      recurse: false
+    helm:
+      valueFiles:
+        - {{ $appProject.valuesFile | default "values.yaml" }}
+    path: {{ $application.gitPath  | default $application.name }}
+    repoURL: {{ squote $appProject.gitUrl }}
+    targetRevision: {{ $appProject.gitBranch | default "main" }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
+{{ end }}
+{{ end }}
