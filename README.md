@@ -8,20 +8,20 @@ This project assist users in deploying Ansible Automation Platform (AAP) and/or 
 **_aap-operator-policy_** directory contains the Helm chart for deploying Automation Controller and Automation Hub operator via RHACM Policy.
 
 <br>
+<br>
 
 > [!IMPORTANT]  
 > Red Hat Advanced Cluster Management operator installation and configuration is **_required_** prior to the steps below.
 
 <br>
-<br>
 
-## Deploy AAP Operator
+## Deploy Ansible Automation Platform Operator
 
 ```bash
 helm template gitops | oc create -f -
 ```
 
-## Undeploy AAP Operator
+## Undeploy Ansible Automation Platform Operator
 
 ```bash
 helm template gitops | oc delete -f -
