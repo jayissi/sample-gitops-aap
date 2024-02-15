@@ -24,5 +24,6 @@ channel: stable-2.3-cluster-scoped
 name: aap
 admin_email: admin@demo.redhat.example.com
 deploy_private_automation_hub: null # boolean value: true or false/null
+default_storage_class: gp2
 database_storage_class: ocs-storagecluster-ceph-rbd
 application_storage_class: ocs-storagecluster-cephfs
