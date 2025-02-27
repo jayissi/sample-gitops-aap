@@ -20,20 +20,8 @@ spec:
   hub:
     disabled: false
     pulp_settings:
-      CONNECTED_ANSIBLE_CONTROLLERS: 
-        - https://aap-controller-aap.{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}
     file_storage_size: 100Gi
-    {{- $storageClasses := (lookup "storage.k8s.io/v1" "StorageClass" "" "").items -}}
-    {{- $defaultStorageClass := "" }}
-    {{- range $storageClasses }}
-      {{- if and .metadata.annotations (eq (index .metadata.annotations "storageclass.kubernetes.io/is-default-class") "true") }}
-        {{- $defaultStorageClass = .metadata.name }}
-      {{- end }}
-    {{- end }}
-    {{- if or $.Values.storageClassName $defaultStorageClass }}
-    file_storage_storage_class: {{ or $.Values.storageClassName $defaultStorageClass }}
-    {{- end }}
+    file_storage_storage_class: {{ $.Values.storageClassName }}
     storage_type: file
   controller:
     disabled: false
-  route_host: aap.{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}
