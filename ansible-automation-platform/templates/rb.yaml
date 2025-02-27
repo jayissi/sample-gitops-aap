@@ -1,0 +1,19 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+  name: argocd-aap
+  namespace: {{ $.Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argocd-aap
+subjects:
+- kind: ServiceAccount
+  name: openshift-gitops-argocd-application-controller
+  namespace: openshift-gitops
