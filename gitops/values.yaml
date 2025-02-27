@@ -1,24 +1,23 @@
 ---
-#Refrences
+#References
 
 #appProject.name := Name of Argo APP project, namespace
-#appProject.description := Namespace description
-#appProject.DisplayName := Namespace DisplayName
+#appProject.targetNamespace := Namespace of Argo APP project, namespace (Defaults to $appProject.name)
 #appProject.gitUrl := Git URL for application helm charts (should end in ".git")
 #appProject.gitBranch := Git Branch for respective application group (Defaults to "main")
-#appProject.valuesFile := Values file for helm charts (Defaults to values.yaml)
+#appProject.valuesFile := Values file for helm charts within a GitOps Project (Defaults to values.yaml). This value is second priority, if $appProject.applications.valuesFile is undefined
 #appProject.applications := List of applications to deploy into the project
 #appProject.applications.name := UNIQUE Name for argo application
 #appProject.applications.gitPath := Path inside the project gitUrl to the Helm chart
-
+#appProject.applications.valuesFile := Application values file for a single helm chart (Overwrites $appProject.valuesFile). This value is highest priority.
 
 appProjects:
-  - name: aap
-    description: "Automation Automation Platform Operator Namespace"
-    displayName: "Automation Automation Platform"
-    gitUrl: 'https://github.com/jayissi/sample-gitops-aap.git'
-    gitBranch: main
-    valuesFile: values.yaml
-    applications:
-      - name: aap
-        gitPath: aap-operator-policy
+- name: ansible-automation-platform
+  targetNamespace: aap
+  gitUrl: 'https://github.com/jayissi/sample-gitops-aap.git'
+  gitBranch: main
+  applications:
+    - name: ansible-automation-platform
+      gitPath: ansible-automation-platform
+      valuesFile: values.yaml
+      prune: true

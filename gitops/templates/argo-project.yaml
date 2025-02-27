@@ -1,0 +1,25 @@
+{{ $Labels := include "labels" . }}
+{{ range $appProject := .Values.appProjects }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+  labels:
+    {{- $Labels | nindent 4 }}
+  name: {{ $appProject.name }}
+  namespace: openshift-gitops
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - name: in-cluster
+    namespace: {{ $appProject.targetNamespace | default $appProject.name }}
+    server: 'https://kubernetes.default.svc'
+  sourceRepos:
+  - {{ squote $appProject.gitUrl }}
+  sourceNamespaces:
+  - {{ $appProject.targetNamespace | default $appProject.name }}
+{{ end }}

@@ -1,0 +1,40 @@
+{{ $Labels := include "labels" . }}
+{{ range $appProject := .Values.appProjects }}
+{{ range $application := $appProject.applications }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+  labels:
+    {{- $Labels | nindent 4 }}
+  name: {{ $application.name }}
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: {{ $appProject.targetNamespace | default $appProject.name }}
+    server: 'https://kubernetes.default.svc'
+  project: {{ $appProject.name }}
+  source:
+  {{- if or $application.valuesFile $appProject.valuesFile }}
+    helm:
+      valueFiles:
+      - {{ or $application.valuesFile $appProject.valuesFile | default "values.yaml" }}
+  {{- end }}
+    path: {{ squote $application.gitPath }}
+    repoURL: {{ squote $appProject.gitUrl }}
+    targetRevision: {{ $appProject.gitBranch | default "main" }}
+  syncPolicy:
+    automated:
+    {{- if eq $application.prune true }}
+      prune: true
+    {{- end }}
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    {{- if eq $application.prune true }}
+      - PruneLast=true
+    {{- end }}
+{{ end }}
+{{ end }}
