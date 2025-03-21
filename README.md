@@ -18,11 +18,11 @@ This project assist users in deploying Ansible Automation Platform (AAP) and/or 
 ## Deploy Ansible Automation Platform Operator
 
 ```bash
-helm template gitops | oc create -f -
+bash bootstrap-gitops.sh
 ```
 
 ## Undeploy Ansible Automation Platform Operator
 
 ```bash
-helm template gitops | oc delete -f -
+helm template app-of-apps | oc delete -f -
 ```
