@@ -12,12 +12,12 @@
 #appProject.applications.valuesFile := Application values file for a single helm chart (Overwrites $appProject.valuesFile). This value is highest priority.
 
 appProjects:
-- name: ansible-automation-platform
-  targetNamespace: aap
+- name: app-of-apps
+  targetNamespace: openshift-gitops
   gitUrl: 'https://github.com/jayissi/sample-gitops-aap.git'
   gitBranch: main
   applications:
-  - name: ansible-automation-platform
-    gitPath: ansible-automation-platform
+  - name: app-of-apps
+    gitPath: gitops
     valuesFile: values.yaml
     prune: true
