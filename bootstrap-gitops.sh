@@ -34,7 +34,10 @@ EOF
 
 sleep 90
 
-oc patch argocds.argoproj.io openshift-gitops -n openshift-gitops --type merge -p '{"spec":{"extraConfig":{"resource.customizations.health.argoproj.io_Application":"hs = {}\nhs.status = \"Progressing\"\nhs.message = \"\"\nif obj.status ~= nil then\n  if obj.status.health ~= nil then\n    hs.status = obj.status.health.status\n    if obj.status.health.message ~= nil then\n      hs.message = obj.status.health.message\n    end\n  end\nend\nreturn hs"}}}'
+oc patch argocds.argoproj.io openshift-gitops \
+  -n openshift-gitops \
+  --type merge \
+  -p '{"spec":{"extraConfig":{"resource.customizations.health.argoproj.io_Application":"hs = {}\nhs.status = \"Progressing\"\nhs.message = \"\"\nif obj.status ~= nil then\n  if obj.status.health ~= nil then\n    hs.status = obj.status.health.status\n    if obj.status.health.message ~= nil then\n      hs.message = obj.status.health.message\n    end\n  end\nend\nreturn hs"}}}'
 
 sleep 30
 
