@@ -8,14 +8,14 @@ metadata:
   namespace: openshift-gitops
 spec:
   clusterResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: '*'
+      kind: '*'
   destinations:
-  - name: in-cluster
-    namespace: {{ $appProject.targetNamespace | default $appProject.name }}
-    server: 'https://kubernetes.default.svc'
+    - name: in-cluster
+      namespace: {{ $appProject.targetNamespace | default $appProject.name }}
+      server: 'https://kubernetes.default.svc'
   sourceRepos:
-  - {{ squote $appProject.gitUrl }}
+    - {{ squote $appProject.gitUrl }}
   sourceNamespaces:
-  - {{ $appProject.targetNamespace | default $appProject.name }}
+    - {{ $appProject.targetNamespace | default $appProject.name }}
 {{ end }}

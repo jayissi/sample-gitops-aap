@@ -9,6 +9,6 @@ metadata:
 spec:
   {{- if ne false $.Values.singleNS }}
   targetNamespaces:
-  - {{ $.Values.namespace }}
+    - {{ $.Values.namespace }}
   {{- end }}
   upgradeStrategy: Default

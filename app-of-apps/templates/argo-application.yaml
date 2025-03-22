@@ -16,7 +16,7 @@ spec:
   {{- if or $application.valuesFile $appProject.valuesFile }}
     helm:
       valueFiles:
-      - {{ or $application.valuesFile $appProject.valuesFile | default "values.yaml" }}
+        - {{ or $application.valuesFile $appProject.valuesFile | default "values.yaml" }}
   {{- end }}
     path: {{ squote $application.gitPath }}
     repoURL: {{ squote $appProject.gitUrl }}
