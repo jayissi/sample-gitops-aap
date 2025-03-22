@@ -20,4 +20,5 @@ appProjects:
   - name: ansible-automation-platform
     gitPath: ansible-automation-platform
     valuesFile: values.yaml
+    syncWave: 1
     prune: true

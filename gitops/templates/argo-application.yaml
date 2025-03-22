@@ -5,6 +5,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+  {{- if $application.syncWave }}
+    argocd.argoproj.io/sync-wave: {{ quote $application.syncWave }}
+  {{- end }}
   name: {{ $application.name }}
   namespace: openshift-gitops
 spec:
