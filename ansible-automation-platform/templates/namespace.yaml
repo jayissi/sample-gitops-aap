@@ -1,0 +1,10 @@
+{{ $Labels := include "labels" . }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+  labels:
+    kubernetes.io/metadata.namespace: {{ $.Values.namespace }}
+  name: {{ $.Values.namespace }}

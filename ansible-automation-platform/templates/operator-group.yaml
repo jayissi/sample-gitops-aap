@@ -3,11 +3,7 @@ apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ $.Template.Name }}
-    argocd.argoproj.io/sync-wave: "-1"
-  labels:
-    kubernetes.io/metadata.namespace: {{ $.Values.namespace }}
-    {{- include "labels" . | nindent 4 }}
+    argocd.argoproj.io/sync-wave: "-2"
   name: {{ $.Values.name }}
   namespace: {{ $.Values.namespace }}
 spec:
