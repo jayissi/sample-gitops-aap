@@ -31,9 +31,9 @@ spec:
     {{- if eq $application.prune true }}
       prune: true
     {{- end }}
-      selfHeal: true
+#      selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+#      - CreateNamespace=true
     {{- if eq $application.prune true }}
       - PruneLast=true
     {{- end }}
