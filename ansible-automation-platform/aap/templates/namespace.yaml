@@ -4,7 +4,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
     argocd.argoproj.io/sync-wave: "-3"
   labels:
+    {{- include "labels" . | nindent 4 }}
     kubernetes.io/metadata.namespace: {{ $.Values.namespace }}
   name: {{ $.Values.namespace }}
