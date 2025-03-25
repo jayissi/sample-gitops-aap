@@ -1,6 +1,6 @@
 #!/bin/bash
 
-oc adm groups cluster-admins admin
+oc adm groups new cluster-admins admin
 
 cat << EOF | oc apply --wait -f -
 ---
