@@ -1,5 +1,7 @@
 #!/bin/bash
 
+oc adm groups cluster-admins admin
+
 cat << EOF | oc apply --wait -f -
 ---
 apiVersion: v1
