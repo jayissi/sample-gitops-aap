@@ -14,6 +14,5 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion }}
 {{- end }}
-argocd.argoproj.io/managed-by: argocd.argoproj.io
 helm.sh/chart: {{ include "chart" . }}
 {{- end }}
