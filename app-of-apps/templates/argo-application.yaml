@@ -5,8 +5,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    app.kubernetes.io/helm-template: {{ $.Template.Name }}
   name: {{ $application.name }}
   namespace: openshift-gitops
 spec:
