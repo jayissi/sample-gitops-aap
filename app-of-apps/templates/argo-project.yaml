@@ -5,7 +5,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+    app.kubernetes.io/helm-template: {{ quote $.Template.Name }}
   labels:
     {{- $Labels | nindent 4 }}
   name: {{ $appProject.name }}

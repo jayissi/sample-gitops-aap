@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+    app.kubernetes.io/helm-template: {{ quote $.Template.Name }}
     argocd.argoproj.io/sync-wave: "-2"
   labels:
     {{- include "labels" . | nindent 4 }}

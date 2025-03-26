@@ -6,7 +6,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+    app.kubernetes.io/helm-template: {{ quote $.Template.Name }}
   {{- if $application.syncWave }}
     argocd.argoproj.io/sync-wave: {{ quote $application.syncWave }}
   {{- end }}
