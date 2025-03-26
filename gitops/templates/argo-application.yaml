@@ -6,9 +6,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-  {{- if $application.syncWave }}
     argocd.argoproj.io/sync-wave: {{ quote $application.syncWave }}
-  {{- end }}
   name: {{ $application.name }}
   namespace: openshift-gitops
 spec:
@@ -17,11 +15,11 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: {{ $appProject.name }}
   source:
-  {{- if or $application.valuesFile $appProject.valuesFile }}
+    {{- if or $application.valuesFile $appProject.valuesFile }}
     helm:
       valueFiles:
         - {{ or $application.valuesFile $appProject.valuesFile | default "values.yaml" }}
-  {{- end }}
+    {{- end }}
     path: {{ squote $application.gitPath }}
     repoURL: {{ squote $appProject.gitUrl }}
     targetRevision: {{ $appProject.gitBranch | default "main" }}
@@ -30,7 +28,7 @@ spec:
     {{- if eq $application.prune true }}
       prune: true
     {{- end }}
-      selfHeal: true
+      selfHeal: false
     syncOptions:
       - CreateNamespace=true
     {{- if eq $application.prune true }}
