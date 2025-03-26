@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ quote $.Template.Name }}
+    app.kubernetes.io/helm-template: {{ quote $.Template.Name | replace "/" "_" }}
     argocd.argoproj.io/sync-wave: "-3"
   labels:
     {{- include "labels" . | nindent 4 }}
