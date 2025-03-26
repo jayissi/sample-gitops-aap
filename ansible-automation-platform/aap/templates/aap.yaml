@@ -3,9 +3,7 @@ apiVersion: aap.ansible.com/v1alpha1
 kind: AnsibleAutomationPlatform
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ quote $.Template.Name | replace "/" "_" }}
-  labels:
-    {{- include "labels" . | nindent 4 }}
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
   name: {{ $.Values.namespace }}
   namespace: {{ $.Values.namespace }}
 spec:

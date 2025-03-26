@@ -6,9 +6,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    app.kubernetes.io/helm-template: {{ quote $.Template.Name | replace "/" "_" }}
-  labels:
-    {{- $Labels | nindent 4 }}
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
   name: {{ $application.name }}
   namespace: openshift-gitops
 spec:
