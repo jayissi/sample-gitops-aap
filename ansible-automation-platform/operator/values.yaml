@@ -1,3 +1,6 @@
 ---
 name: ansible-automation-platform-operator
 namespace: aap
+channel: stable-2.5-cluster-scoped
+singleNS: false
+storageClassName: gp3-csi

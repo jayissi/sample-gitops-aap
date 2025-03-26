@@ -1,4 +1,3 @@
-{{ $Labels := include "labels" . }}
 ---
 apiVersion: v1
 kind: Namespace
