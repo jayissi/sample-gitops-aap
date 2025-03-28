@@ -3,7 +3,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
     argocd.argoproj.io/sync-wave: "-2"
+  labels:
+    {{- include "labels" . | nindent 4 }}
   name: argocd-aap
   namespace: {{ $.Values.namespace }}
 rules:

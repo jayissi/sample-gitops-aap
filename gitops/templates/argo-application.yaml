@@ -6,7 +6,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
+    app.kubernetes.io/helm-template: {{ $.Template.Name }}
+  {{- if $application.syncWave }}
     argocd.argoproj.io/sync-wave: {{ quote $application.syncWave }}
+  {{- end }}
+  labels:
+    {{- $Labels | nindent 4 }}
   name: {{ $application.name }}
   namespace: openshift-gitops
 spec:
@@ -28,7 +33,7 @@ spec:
     {{- if eq $application.prune true }}
       prune: true
     {{- end }}
-      selfHeal: false
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
     {{- if eq $application.prune true }}

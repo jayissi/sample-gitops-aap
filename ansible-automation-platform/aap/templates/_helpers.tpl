@@ -14,5 +14,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion }}
 {{- end }}
+argocd.argoproj.io/managed-by: openshift-gitops
 helm.sh/chart: {{ include "chart" . }}
 {{- end }}

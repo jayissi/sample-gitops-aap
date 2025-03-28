@@ -4,6 +4,8 @@ kind: AnsibleAutomationPlatform
 metadata:
   annotations:
     app.kubernetes.io/helm-template: {{ $.Template.Name }}
+  labels:
+    {{- include "labels" . | nindent 4 }}
   name: {{ $.Values.namespace }}
   namespace: {{ $.Values.namespace }}
 spec:
